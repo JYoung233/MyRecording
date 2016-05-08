@@ -3,6 +3,7 @@ package com.yangyang.myrecording.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.yangyang.myrecording.R;
@@ -18,13 +19,26 @@ public class MyRecordingButton extends Button{
     private static final int STATE_WANTCANCEL=3;
     private int mCueState=STATE_NORMAL;
     private boolean isRecording=false;
+    private DialogManager mDialogManager;
 
     public MyRecordingButton(Context context) {
         this(context, null);
     }
 
     public MyRecordingButton(Context context, AttributeSet attrs) {
+
         super(context, attrs);
+        mDialogManager=new DialogManager(getContext());
+
+        setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //TODO 真正的显示应该在Audio准备就绪之后
+                mDialogManager.showRecordingDialog();
+                isRecording=true;
+                return false;
+            }
+        });
     }
 
     @Override
@@ -34,8 +48,6 @@ public class MyRecordingButton extends Button{
         int y= (int) event.getY();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                //TODO
-                isRecording=true;
                 ChangeState(STATE_RECORDING);
                 break;
 
@@ -53,9 +65,9 @@ public class MyRecordingButton extends Button{
 
             case MotionEvent.ACTION_UP:
                 if(mCueState==STATE_RECORDING){
-
+                    mDialogManager.dismissDialog();
                 }else if(mCueState==STATE_WANTCANCEL){
-
+                    mDialogManager.dismissDialog();
                 }
                 reset();
                 break;
@@ -98,13 +110,13 @@ public class MyRecordingButton extends Button{
                     setBackgroundResource(R.drawable.btn_recording);
                     setText(R.string.str_btn_send);
                     if(isRecording){
-                        //TODO 更新Dialog.recording()
+                       mDialogManager.Recording();
                     }
                     break;
                 case STATE_WANTCANCEL:
                     setBackgroundResource(R.drawable.btn_recording);
                     setText(R.string.str_btn_cancel);
-                    //TODO 更新Dialog.WantCancel()
+                    mDialogManager.wantToCancel();
                     break;
 
             }
