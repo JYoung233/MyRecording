@@ -3,4 +3,8 @@
     <string name="str_btn_recording">按住 说话</string>
     <string name="str_btn_cancel">松开手指，取消发送</string>
     <string name="str_btn_send">松开 发送</string>
+    <string name="hint_recording">手指上滑，取消发送</string>
+    <string name="hint_timeshort">时间太短</string>
+    <string name="hint_cancel">取消发送</string>
+
 </resources>
