@@ -1,6 +1,7 @@
 package com.yangyang.myrecording.view;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +13,7 @@ import com.yangyang.myrecording.R;
  * Created by asus on 2016/5/8.
  * 自定义录音按钮，有三种状态
  */
-public class MyRecordingButton extends Button{
+public class MyRecordingButton extends Button implements AudioManager.AudioStateListener {
     private static final int DISTANCE_Y_CANCEL=50;//这里应该转换dp和px
     private static final int STATE_NORMAL=1;
     private static final int STATE_RECORDING=2;
@@ -20,6 +21,7 @@ public class MyRecordingButton extends Button{
     private int mCueState=STATE_NORMAL;
     private boolean isRecording=false;
     private DialogManager mDialogManager;
+    private AudioManager audioManager;
 
     public MyRecordingButton(Context context) {
         this(context, null);
@@ -29,13 +31,18 @@ public class MyRecordingButton extends Button{
 
         super(context, attrs);
         mDialogManager=new DialogManager(getContext());
+        String file= Environment.getExternalStorageDirectory()+"/yangyang";
+        audioManager=AudioManager.getInstance(file);
+        audioManager.SetOnAudioState(this);
+
+
 
         setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 //TODO 真正的显示应该在Audio准备就绪之后
                 mDialogManager.showRecordingDialog();
-                isRecording=true;
+                isRecording = true;
                 return false;
             }
         });
@@ -125,4 +132,8 @@ public class MyRecordingButton extends Button{
     }
 
 
+    @Override
+    public void WellPrepared() {
+
+    }
 }
