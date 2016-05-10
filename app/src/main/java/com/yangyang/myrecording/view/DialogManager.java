@@ -82,10 +82,7 @@ public class DialogManager {
     public void UpdateVoiceLevel(int level){
         //更新声音
         if(mDialog!=null&&mDialog.isShowing()){
-//            mLabel.setVisibility(View.VISIBLE);
-//            mVoice.setVisibility(View.VISIBLE);
-//            mRecorder.setVisibility(View.VISIBLE);
-            Log.v("infor","音量改变"+level);
+
             int resID=context.getResources().getIdentifier("v"+level,"mipmap",context.getPackageName());
             mVoice.setImageResource(resID);
         }
