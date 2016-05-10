@@ -3,6 +3,7 @@ package com.yangyang.myrecording.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ public class DialogManager {
             mLabel.setVisibility(View.VISIBLE);
             mVoice.setVisibility(View.VISIBLE);
             mRecorder.setVisibility(View.VISIBLE);
+            mVoice.setImageResource(R.mipmap.v1);
             mRecorder.setImageResource(R.mipmap.recorder);
             mLabel.setText(R.string.hint_recording);
         }
@@ -80,10 +82,11 @@ public class DialogManager {
     public void UpdateVoiceLevel(int level){
         //更新声音
         if(mDialog!=null&&mDialog.isShowing()){
-            mLabel.setVisibility(View.VISIBLE);
-            mVoice.setVisibility(View.VISIBLE);
-            mRecorder.setVisibility(View.VISIBLE);
-            int resID=context.getResources().getIdentifier("v"+level,"drawable",context.getPackageName());
+//            mLabel.setVisibility(View.VISIBLE);
+//            mVoice.setVisibility(View.VISIBLE);
+//            mRecorder.setVisibility(View.VISIBLE);
+            Log.v("infor","音量改变"+level);
+            int resID=context.getResources().getIdentifier("v"+level,"mipmap",context.getPackageName());
             mVoice.setImageResource(resID);
         }
     }

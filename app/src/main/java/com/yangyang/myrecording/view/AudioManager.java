@@ -1,7 +1,6 @@
 package com.yangyang.myrecording.view;
 
 import android.media.MediaRecorder;
-import android.provider.MediaStore;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +20,8 @@ public class AudioManager {
     private AudioManager(String file){
         mDir=file;
     }//构造方法
+
+
 
     /**
      * 提供准备就绪的回调接口
@@ -47,6 +48,7 @@ public class AudioManager {
 
     }
     public void prepareAudio(){
+
         try {
             isprepared=false;
             File dir=new File(mDir);
@@ -70,7 +72,7 @@ public class AudioManager {
             if(mListener!=null){
                 mListener.WellPrepared();
             }
-        } catch (IOException e) {
+        } catch (IllegalStateException|IOException e) {
             e.printStackTrace();
         }
 
@@ -95,17 +97,17 @@ public class AudioManager {
     public int getVoiceLevel(int level){
         if(isprepared){
             try {//捕获异常，保证获取的信息不会挂掉
-                return mediaRecorder.getMaxAmplitude()/32768+1;
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
+                return level*mediaRecorder.getMaxAmplitude()/32768+1;
+            } catch (Exception e) {
+
             }
 
         }
         return 1;
     }
     public void release(){
-        mediaRecorder.release();
         mediaRecorder.stop();
+        mediaRecorder.release();//注意顺序！！！！
         mediaRecorder=null;
 
     }
@@ -122,7 +124,9 @@ public class AudioManager {
         }
 
     }
-
+    public String getCurrentFilePath() {
+        return mCurrentFilePath;
+    }
 
 
 }
