@@ -40,7 +40,7 @@ public class MyAdapter extends ArrayAdapter<MainActivity.Recorder> {
     public View getView(int position, View convertView, ViewGroup parent) {
         MyViewHolder holder=null;
         if(convertView==null){
-            mInflater.inflate(R.layout.item_recorder,parent,false);
+            convertView=mInflater.inflate(R.layout.item_recorder,parent,false);
             holder=new MyViewHolder();
             holder.length=convertView.findViewById(R.id.recorder_length);
             holder.tx= (TextView) convertView.findViewById(R.id.recorder_time);
@@ -49,7 +49,7 @@ public class MyAdapter extends ArrayAdapter<MainActivity.Recorder> {
         }else{
             holder= (MyViewHolder) convertView.getTag();
         }
-        holder.tx.setText(Math.round(getItemId(position))+"\"");
+        holder.tx.setText(Math.round(getItem(position).time)+"\"");
         ViewGroup.LayoutParams lp=holder.length.getLayoutParams();
         lp.width= (int) (minItemWidth+(maxItemWidth/60f)*getItem(position).time);
         //最长录制时间为60秒
